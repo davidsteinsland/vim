@@ -25,19 +25,40 @@ set ignorecase
 set incsearch
 " Smart case search
 set smartcase
-
 " Highlights matching brackets
 set showmatch
-
 set linespace=0
 " Show trailing whitespace
 set listchars=trail:·
 set mouse=a " Enable mouse
 set nocopyindent " Follow previous indent level
-
-
 " Add a margin to the left
 set foldcolumn=2
+" 1 tab == 4 spaces
+set shiftwidth=4
+set tabstop=4
+" linebreak on 150 characters
+set lbr
+set tw=150
+" Auto indent
+set ai
+" Smart indent
+set si
+" Wrap lines
+set wrap
+" Show line numbers
+set number
+filetype on
+set encoding=utf8
+set ffs=unix,dos,mac
+set smarttab
+" Add tab-specific settings at the end of the file
+set modeline
+set modelines=5
+" Enable syntax highlight
+syntax enable
+" Set font (Linux)
+set guifont=Ubuntu\ Mono\12,Inconsolata\ 12
 
 " Auto-create closing brackets
 inoremap {      {}<Left>
@@ -45,12 +66,11 @@ inoremap {<CR>  {<CR>}<Esc>O
 inoremap {{     {
 inoremap {}     {}
 
-" Add tab-specific settings at the end of the file
-set modeline
-set modelines=5
-
-" Enable syntax highlight
-syntax enable
+if has("gui_win32")
+	" Windows specifics
+elseif has ("gui_gtk2")
+	" linux
+endif
 
 try
 	let g:solarized_termcolors=256
@@ -64,29 +84,6 @@ try
 catch
 endtry
 
-set encoding=utf8
-set ffs=unix,dos,mac
-
-set smarttab
-" 1 tab == 4 spaces
-set shiftwidth=4
-set tabstop=4
-
-" linebreak on 150 characters
-set lbr
-set tw=150
-
-" Auto indent
-set ai
-" Smart indent
-set si
-" Wrap lines
-set wrap
-
-" Show line numbers
-set number
-
-filetype on
 augroup vimrc_filetype
 	" <F6> to Compile
 	" <F7> ro Run
@@ -99,6 +96,9 @@ augroup vimrc_filetype
 	autocmd FileType    java            map <F6> :w<CR>:!echo -- Compiling %; javac %<CR>
 	autocmd FileType    java            map <F7> <S-F7><CR>
 	autocmd FileType    java            map <S-F7> :!echo -- Running %<; java %<
+
+	" latin1 encoding for Java
+	autocmd Filetype	java			set fileencoding=latin1
 
 	" Syntax-indenting for programming...
 	"autocmd FileType    c,cpp,java,php  set foldmethod=syntax
